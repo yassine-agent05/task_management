@@ -27,7 +27,8 @@
 }
 
 .register-container input[type="email"],
-.register-container input[type="password"] {
+.register-container input[type="password"],
+.register-container input[type="text"] {
   width: calc(100% - 22px); /* Account for padding and border */
   padding: 10px;
   border: 1px solid #ccc;

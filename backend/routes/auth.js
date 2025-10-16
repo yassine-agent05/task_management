@@ -8,7 +8,7 @@ const User = require('../models/User');
 // @desc    Register user
 // @access  Public
 router.post('/register', async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
 
   try {
     let user = await User.findOne({ email });
@@ -18,6 +18,7 @@ router.post('/register', async (req, res) => {
     }
 
     user = new User({
+      name,
       email,
       password,
     });
@@ -39,7 +40,7 @@ router.post('/register', async (req, res) => {
       { expiresIn: '1h' },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({ token, name: user.name, email: user.email });
       }
     );
   } catch (err) {
@@ -80,7 +81,7 @@ router.post('/login', async (req, res) => {
       { expiresIn: '1h' },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({ token, name: user.name, email: user.email });
       }
     );
   } catch (err) {

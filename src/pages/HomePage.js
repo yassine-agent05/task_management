@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTasks } from '../context/TaskContext';
 import TaskList from '../components/TaskList';
-import './HomePage.css'; // This line should be present
+import './HomePage.css';
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -36,7 +36,7 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
-      <h1>Welcome, {user?.email}</h1>
+      <h1>Welcome, {user?.name || user?.email}</h1>
       
       <div className="task-form-container">
         <h2>Add New Task</h2>

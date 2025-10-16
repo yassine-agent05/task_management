@@ -10,8 +10,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      const userEmail = localStorage.getItem('userEmail');
-      setUser({ email: userEmail });
+      const userEmail = localStorage.getItem('userEmail') ?? '';
+      const userName = localStorage.getItem('userName') ?? '';
+      setUser({ email: userEmail, name: userName });
+    } else {
+      setUser({ email: '', name: '' }); // Initialize with empty strings if no token
     }
     setLoading(false);
   }, []);
@@ -34,9 +37,10 @@ export const AuthProvider = ({ children }) => {
 
       // Save token to localStorage
       localStorage.setItem('token', data.token);
-      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userEmail', data.email ?? '');
+      localStorage.setItem('userName', data.name ?? '');
       
-      setUser({ email });
+      setUser({ email: data.email ?? '', name: data.name ?? '' });
       return true;
     } catch (error) {
       console.error('Login error:', error);
@@ -44,14 +48,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (email, password) => {
+  const register = async (name, email, password) => {
     try {
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
 
       const data = await response.json();
@@ -63,9 +67,10 @@ export const AuthProvider = ({ children }) => {
 
       // Save token to localStorage
       localStorage.setItem('token', data.token);
-      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userEmail', data.email ?? '');
+      localStorage.setItem('userName', data.name ?? '');
       
-      setUser({ email });
+      setUser({ email: data.email ?? '', name: data.name ?? '' });
       return true;
     } catch (error) {
       console.error('Registration error:', error);
@@ -77,7 +82,8 @@ export const AuthProvider = ({ children }) => {
     // Remove token from localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('userEmail');
-    setUser(null);
+    localStorage.removeItem('userName');
+    setUser({ email: '', name: '' });
   };
 
   if (loading) {

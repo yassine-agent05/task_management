@@ -19,7 +19,7 @@ const Navbar = () => {
         <li className="navbar-item">
           <Link to="/">Home</Link>
         </li>
-        {user ? (
+        {user && user.email ? (
           <li className="navbar-item">
             <button onClick={handleLogout} className="navbar-button">Logout</button>
           </li>

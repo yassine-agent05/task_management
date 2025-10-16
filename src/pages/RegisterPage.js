@@ -4,6 +4,7 @@ import './RegisterPage.css';
 import { useAuth } from '../context/AuthContext';
 
 const RegisterPage = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -15,7 +16,7 @@ const RegisterPage = () => {
     e.preventDefault();
     setError('');
 
-    if (!email || !password || !confirmPassword) {
+    if (!name || !email || !password || !confirmPassword) {
       setError('Please fill in all fields.');
       return;
     }
@@ -31,7 +32,7 @@ const RegisterPage = () => {
       return;
     }
 
-    const success = await register(email, password);
+    const success = await register(name, email, password);
     if (success) {
       navigate('/'); // Redirect to home page on successful registration
     } else {
@@ -44,6 +45,16 @@ const RegisterPage = () => {
       <h2>Register Page</h2>
       <form onSubmit={handleRegister}>
         {error && <p style={{ color: 'red' }}>{error}</p>}
+        <div>
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
         <div>
           <label htmlFor="email">Email:</label>
           <input
