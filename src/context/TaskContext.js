@@ -10,7 +10,7 @@ export const TaskProvider = ({ children }) => {
 
   // Fetch tasks when user changes
   useEffect(() => {
-    if (user) {
+    if (user && user.email) {
       fetchTasks();
     } else {
       setTasks([]);
